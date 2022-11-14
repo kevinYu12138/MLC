@@ -73,7 +73,9 @@ def step_hmlc_K(main_net, main_opt, hard_loss_f,
 
     # compute gw for updating meta_net
     logit_g = main_net(data_g)
-    loss_g = hard_loss_f(logit_g, target_g)
+    # print('测试：logit_g的type是',type(logit_g),';target_g的type是',type(target_g))
+    # print('测试 mlc.py 78：logit_g的type是', logit_g.dtype, ';target_g的type是', target_g.dtype)
+    loss_g = hard_loss_f(logit_g, target_g.long())
     gw = torch.autograd.grad(loss_g, main_net.parameters())
     
     # given current meta net, get corrected label
@@ -86,7 +88,8 @@ def step_hmlc_K(main_net, main_opt, hard_loss_f,
         bs2 = target_c.size(0)
 
         logit_c = main_net(data_c)
-        loss_s2 = hard_loss_f(logit_c, target_c)
+        # print('测试mlc.py 92：logit_c的type是', logit_c.dtype, ';target_c的type是', target_c.dtype)
+        loss_s2 = hard_loss_f(logit_c, target_c.long())
         loss_s = (loss_s * bs1 + loss_s2 * bs2 ) / (bs1+bs2)
 
     f_param_grads = torch.autograd.grad(loss_s, main_net.parameters(), create_graph=True)    
@@ -103,7 +106,8 @@ def step_hmlc_K(main_net, main_opt, hard_loss_f,
 
     # 3. compute d_w' L_{D}(w')
     logit_g = main_net(data_g)
-    loss_g  = hard_loss_f(logit_g, target_g)
+    # print('测试 mlc.py 110：logit_g的type是', logit_g.dtype, ';target_g的type是', target_g.dtype)
+    loss_g  = hard_loss_f(logit_g, target_g.long())
     gw_prime = torch.autograd.grad(loss_g, main_net.parameters())
 
     # 3.5 compute discount factor gw_prime * (I-LH) * gw.t() / |gw|^2

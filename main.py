@@ -59,7 +59,7 @@ parser.add_argument('--gradient_steps', default=1, type=int, help='Number of loo
 
 # CIFAR
 # Positional arguments
-parser.add_argument('--data_path', default='data', type=str, help='Root for the datasets.')
+parser.add_argument('--data_path', default='../data', type=str, help='Root for the datasets.')
 # Optimization options
 parser.add_argument('--nosgdr', default=False, action='store_true', help='Turn off SGDR.')
 
@@ -101,14 +101,15 @@ def get_data(dataset, gold_fraction, corruption_prob, get_C):
     if dataset == 'cifar10' or dataset == 'cifar100':
         sys.path.append('CIFAR')
 
-        from data_helper_cifar import prepare_data
+        from CIFAR.data_helper_cifar import prepare_data
+
         args.use_mwnet_loader = True # use exactly the same loader as in the mwnet paper
         logger.info('================= Use the same dataloader as in MW-Net =========================')
         return prepare_data(gold_fraction, corruption_prob, get_C, args)
     elif dataset == 'clothing1m':
         sys.path.append('CLOTHING1M')
 
-        from data_helper_clothing1m import prepare_data
+        from CLOTHING1M.data_helper_clothing1m import prepare_data
         return prepare_data(args)
 
 def build_models(dataset, num_classes):

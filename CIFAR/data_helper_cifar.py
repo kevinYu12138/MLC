@@ -15,7 +15,7 @@ def prepare_data(gold_fraction, corruption_prob, corruption_type, args):
         return prepare_data_mlc(gold_fraction, corruption_prob, corruption_type, args)
 
 def prepare_data_mwnet(gold_fraction, corruption_prob, corruption_type, args):
-    from load_corrupted_data_mlg import CIFAR10, CIFAR100    
+    from load_corrupted_data_mlg import CIFAR10, CIFAR100
     normalize = transforms.Normalize(mean=[x / 255.0 for x in [125.3, 123.0, 113.9]],
                                      std=[x / 255.0 for x in [63.0, 62.1, 66.7]])
     if True: # no augment as used by mwnet
@@ -83,7 +83,7 @@ def prepare_data_mwnet(gold_fraction, corruption_prob, corruption_type, args):
     return train_gold_loader, train_silver_loader, valid_loader, test_loader, num_classes
 
 def prepare_data_mlc(gold_fraction, corruption_prob, corruption_type, args):
-    from load_corrupted_data import CIFAR10, CIFAR100
+    from load_corrupted_data_mlg import CIFAR10, CIFAR100
         
     mean = [x / 255 for x in [125.3, 123.0, 113.9]]
     std = [x / 255 for x in [63.0, 62.1, 66.7]]
